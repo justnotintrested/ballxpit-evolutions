@@ -58,12 +58,12 @@ function buildMatrix(){
   html += `</tr>`;
 
   names.forEach(row =>{
-    html += `<tr><th><img src='img/${toFile(row)}' width='40'><br>${row}</th>`;
+    html += `<tr><th><img src='${toFile(row)}' width='40'><br>${row}</th>`;
     names.forEach(col =>{
       const found = evolutions.find(e=> e.row===row && e.col===col);
       if(found){
         html += `<td onclick='pop("${found.name}","${found.combo}","${found.effect}","${found.img}")'>
-                   <img src='img/${found.img}' width='30'><br>${found.name}
+                   <img src='${found.img}' width='30'><br>${found.name}
                  </td>`;
       } else {
         html += `<td></td>`;
