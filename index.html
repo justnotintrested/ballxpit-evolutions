@@ -20,13 +20,16 @@
   .small { font-size:13px; padding:6px 8px; }
 
   /* Matrix table — UPDATED TO 100×100 CELLS */
-  .matrix-wrap { 
-    overflow:auto; 
-    border-radius:8px; 
-    padding:6px; 
-    background:var(--panel); 
-    border:1px solid var(--border);
-    max-height:85vh; /* prevents screen overflow */
+  .matrix-wrap {
+  overflow: auto;        /* scroll both directions */
+  border-radius: 8px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+
+  width: 100%;
+  height: calc(100vh - 160px);  /* <— THIS IS THE FIX */
+  max-height: calc(100vh - 160px);
   }
   table { 
     border-collapse:collapse; 
