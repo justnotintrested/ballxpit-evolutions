@@ -1,110 +1,74 @@
 [
   {
     "name": "BLEED",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "bleed.png"
   },
   {
     "name": "BROOD MOTHER",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "brood_mother.png"
   },
   {
     "name": "BURN",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "burn.png"
   },
   {
     "name": "CELL",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "cell.png"
   },
   {
     "name": "CHARM",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "charm.png"
   },
   {
     "name": "DARK",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "dark.png"
   },
   {
     "name": "EARTHQUAKE",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "earthquake.png"
   },
   {
     "name": "EGG SAC",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "egg_sac.png"
   },
   {
     "name": "FREEZE",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "freeze.png"
   },
   {
     "name": "GHOST",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "ghost.png"
   },
   {
     "name": "IRON",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "iron.png"
   },
   {
     "name": "LAZER H",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "lazer_h.png"
   },
   {
     "name": "LAZER V",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "lazer_v.png"
   },
   {
     "name": "LIGHT",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "light.png"
   },
   {
     "name": "LIGHTNING",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "lightning.png"
   },
   {
     "name": "POISON",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "poison.png"
   },
   {
     "name": "VAMPIRE",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "vampire.png"
   },
   {
     "name": "WIND",
-    "combo": "Base",
-    "effect": "",
-    "img": ""
+    "img": "wind.png"
   }
 ]
