@@ -1,0 +1,410 @@
+[
+  {
+    "row": "IRON",
+    "col": "GHOST",
+    "name": "Assassin",
+    "combo": "IRON \u00d7 GHOST",
+    "effect": "Passes through the front of enemies, but not the back. Backstabs deal 30% bonus damage.",
+    "img": "assassin.png"
+  },
+  {
+    "row": "IRON",
+    "col": "DARK",
+    "name": "Assassin",
+    "combo": "IRON \u00d7 DARK",
+    "effect": "Passes through the front of enemies, but not the back. Backstabs deal 30% bonus damage.",
+    "img": "assassin.png"
+  },
+  {
+    "row": "CHARM",
+    "col": "BURN",
+    "name": "Berserk",
+    "combo": "CHARM \u00d7 BURN",
+    "effect": "Each hit has a 30% chance of causing enemies to go berserk for 6 seconds. Berserk enemies deal 15-24 damage to adjacent enemies every second",
+    "img": "berserk.png"
+  },
+  {
+    "row": "CHARM",
+    "col": "BLEED",
+    "name": "Berserk",
+    "combo": "CHARM \u00d7 BLEED",
+    "effect": "Each hit has a 30% chance of causing enemies to go berserk for 6 seconds. Berserk enemies deal 15-24 damage to adjacent enemies every second",
+    "img": "berserk.png"
+  },
+  {
+    "row": "DARK",
+    "col": "SUN",
+    "name": "Black Hole",
+    "combo": "DARK \u00d7 SUN",
+    "effect": "Instantly kills the first non-boss enemy that it hits, but destroys itself afterwards. Has a 7 second cooldown before it can be shot again.",
+    "img": "blackhole.png"
+  },
+  {
+    "row": "FREEZE",
+    "col": "LIGHTNING",
+    "name": "Blizzard",
+    "combo": "FREEZE \u00d7 LIGHTNING",
+    "effect": "Freezes all enemies within a 2 tile radius for 0.8 seconds, dealing 1-50 damage",
+    "img": "blizzard.png"
+  },
+  {
+    "row": "FREEZE",
+    "col": "WIND",
+    "name": "Blizzard",
+    "combo": "FREEZE \u00d7 WIND",
+    "effect": "Freezes all enemies within a 2 tile radius for 0.8 seconds, dealing 1-50 damage",
+    "img": "blizzard.png"
+  },
+  {
+    "row": "BURN",
+    "col": "IRON",
+    "name": "Bomb",
+    "combo": "BURN \u00d7 IRON",
+    "effect": "Explodes when hitting an enemy, dealing 150-300 damage to nearby enemies. Has a 3 seconds cooldown before it can be shot again.",
+    "img": "bomb.png"
+  },
+  {
+    "row": "LIGHT",
+    "col": "LIGHTNING",
+    "name": "Flash",
+    "combo": "LIGHT \u00d7 LIGHTNING",
+    "effect": "Damage all enemies on screen for 1-3 damage after hitting an enemy and blind them for 2 seconds.",
+    "img": "flash.png"
+  },
+  {
+    "row": "LIGHT",
+    "col": "DARK",
+    "name": "Flicker",
+    "combo": "LIGHT \u00d7 DARK",
+    "effect": "Deals 1-7 damage to every enemy on screen every 1.4 seconds.",
+    "img": "flicker.png"
+  },
+  {
+    "row": "FREEZE",
+    "col": "LASER(HORIZONTAL)",
+    "name": "Freeze Ray",
+    "combo": "FREEZE \u00d7 LASER(HORIZONTAL)",
+    "effect": "Emits a freeze ray when hitting an enemy, dealing 20-50 to all enemies in its path, with a 10% chance of freezing them for 10.0 seconds",
+    "img": "freezeray.png"
+  },
+  {
+    "row": "BURN",
+    "col": "FREEZE",
+    "name": "Frozen Flame",
+    "combo": "BURN \u00d7 FREEZE",
+    "effect": "Add 1 stack of frostburn on hit for 20 seconds (max 4 stacks).",
+    "img": "frozenflame.png"
+  },
+  {
+    "row": "BURN",
+    "col": "FREEZE",
+    "name": "Glacier",
+    "combo": "BURN \u00d7 FREEZE",
+    "effect": "Releases glacial spikes.",
+    "img": "glacier.png"
+  },
+  {
+    "row": "BLEED",
+    "col": "IRON",
+    "name": "Hemorrhage",
+    "combo": "BLEED \u00d7 IRON",
+    "effect": "Inflicts 3 stacks of bleed.",
+    "img": ""
+  },
+  {
+    "row": "LASER(VERTICAL)",
+    "col": "LASER(HORIZONTAL)",
+    "name": "Holy Laser",
+    "combo": "LASER(VERTICAL) \u00d7 LASER(HORIZONTAL)",
+    "effect": "Deals 24-36 damage to all enemies in the same row and column.",
+    "img": ""
+  },
+  {
+    "row": "CHARM",
+    "col": "DARK",
+    "name": "Incubus",
+    "combo": "CHARM \u00d7 DARK",
+    "effect": "Each hit has a 4% chance.",
+    "img": "incubus.png"
+  },
+  {
+    "row": "BURN",
+    "col": "WIND",
+    "name": "Inferno",
+    "combo": "BURN \u00d7 WIND",
+    "effect": "Applies 1 stack of burn.",
+    "img": "inferno.png"
+  },
+  {
+    "row": "LASER",
+    "col": "LIGHT",
+    "name": "Laser Beam",
+    "combo": "LASER \u00d7 LIGHT",
+    "effect": "Emit a laser beam.",
+    "img": ""
+  },
+  {
+    "row": "BROOD MOTHER",
+    "col": "BLEED",
+    "name": "Leech",
+    "combo": "BROOD MOTHER \u00d7 BLEED",
+    "effect": "Attaches up to 1 leech.",
+    "img": "leech.png"
+  },
+  {
+    "row": "LIGHTNING",
+    "col": "IRON",
+    "name": "Lightning Rod",
+    "combo": "LIGHTNING \u00d7 IRON",
+    "effect": "Plants a lightning rod.",
+    "img": ""
+  },
+  {
+    "row": "CELL",
+    "col": "BROOD MOTHER",
+    "name": "Maggot",
+    "combo": "CELL \u00d7 BROOD MOTHER",
+    "effect": "Infest enemies.",
+    "img": "maggot.png"
+  },
+  {
+    "row": "BURN",
+    "col": "EARTHQUAKE",
+    "name": "Magma",
+    "combo": "BURN \u00d7 EARTHQUAKE",
+    "effect": "Emits lava blobs.",
+    "img": "magma.png"
+  },
+  {
+    "row": "CHARM",
+    "col": "LIGHT",
+    "name": "Lovestruck",
+    "combo": "CHARM \u00d7 LIGHT",
+    "effect": "Inflicts lovestruck.",
+    "img": ""
+  },
+  {
+    "row": "CHARM",
+    "col": "LIGHTNING",
+    "name": "Lovestruck",
+    "combo": "CHARM \u00d7 LIGHTNING",
+    "effect": "Inflicts lovestruck.",
+    "img": ""
+  },
+  {
+    "row": "VAMPIRE",
+    "col": "BROOD MOTHER",
+    "name": "Mosquito King",
+    "combo": "VAMPIRE \u00d7 BROOD MOTHER",
+    "effect": "Spawns a mosquito.",
+    "img": "mosquitoking.png"
+  },
+  {
+    "row": "VAMPIRE",
+    "col": "EGG SAC",
+    "name": "Mosquito Swarm",
+    "combo": "VAMPIRE \u00d7 EGG SAC",
+    "effect": "Explodes into 3-6 mosquitoes.",
+    "img": "mosquitoswarm.png"
+  },
+  {
+    "row": "WIND",
+    "col": "POISON",
+    "name": "Noxious",
+    "combo": "WIND \u00d7 POISON",
+    "effect": "Passes through enemies.",
+    "img": "noxious.png"
+  },
+  {
+    "row": "WIND",
+    "col": "DARK",
+    "name": "Noxious",
+    "combo": "WIND \u00d7 DARK",
+    "effect": "Passes through enemies.",
+    "img": "noxious.png"
+  },
+  {
+    "row": "BOMB",
+    "col": "POISON",
+    "name": "Nuclear Bomb",
+    "combo": "BOMB \u00d7 POISON",
+    "effect": "Explodes.",
+    "img": ""
+  },
+  {
+    "row": "EARTHQUAKE",
+    "col": "CELL",
+    "name": "Overgrowth",
+    "combo": "EARTHQUAKE \u00d7 CELL",
+    "effect": "Applies 1 stack.",
+    "img": ""
+  },
+  {
+    "row": "BURN",
+    "col": "EARTHQUAKE",
+    "name": "Phantom",
+    "combo": "BURN \u00d7 EARTHQUAKE",
+    "effect": "Curse enemies.",
+    "img": "phantom.png"
+  },
+  {
+    "row": "LASER(HORIZONTAL)",
+    "col": "POISON",
+    "name": "Radiation Beam",
+    "combo": "LASER(HORIZONTAL) \u00d7 POISON",
+    "effect": "Emit a radiation beam.",
+    "img": ""
+  },
+  {
+    "row": "LASER(HORIZONTAL)",
+    "col": "CELL",
+    "name": "Radiation Beam",
+    "combo": "LASER(HORIZONTAL) \u00d7 CELL",
+    "effect": "Emit a radiation beam.",
+    "img": ""
+  },
+  {
+    "row": "BLEED",
+    "col": "DARK",
+    "name": "Sacrifice",
+    "combo": "BLEED \u00d7 DARK",
+    "effect": "Inflicts 4 stacks.",
+    "img": ""
+  },
+  {
+    "row": "EARTHQUAKE",
+    "col": "WIND",
+    "name": "Sandstorm",
+    "combo": "EARTHQUAKE \u00d7 WIND",
+    "effect": "Goes through enemies.",
+    "img": "sandstorm.png"
+  },
+  {
+    "row": "INCUBUS",
+    "col": "SUCCUBUS",
+    "name": "Satan",
+    "combo": "INCUBUS \u00d7 SUCCUBUS",
+    "effect": "While active.",
+    "img": "satan.png"
+  },
+  {
+    "row": "IRON",
+    "col": "EGGSAC",
+    "name": "Shotgun",
+    "combo": "IRON \u00d7 EGGSAC",
+    "effect": "Shoots 3-7 iron baby balls.",
+    "img": "shotgun.png"
+  },
+  {
+    "row": "GHOST",
+    "col": "VAMPIRE",
+    "name": "Soul Sucker",
+    "combo": "GHOST \u00d7 VAMPIRE",
+    "effect": "Passes through enemies.",
+    "img": "soulsucker.png"
+  },
+  {
+    "row": "BROOD MOTHER",
+    "col": "EGG SAC",
+    "name": "Spider Queen",
+    "combo": "BROOD MOTHER \u00d7 EGG SAC",
+    "effect": "Has a 25% chance.",
+    "img": ""
+  },
+  {
+    "row": "LIGHTNING",
+    "col": "WIND",
+    "name": "Storm",
+    "combo": "LIGHTNING \u00d7 WIND",
+    "effect": "Emits lightning to strike nearby enemies every second, dealing 1-40 damage",
+    "img": "storm.png"
+  },
+  {
+    "row": "CHARM",
+    "col": "VAMPIRE",
+    "name": "Succubus",
+    "combo": "CHARM \u00d7 VAMPIRE",
+    "effect": "Each hit.",
+    "img": "succubus.png"
+  },
+  {
+    "row": "FIRE",
+    "col": "LIGHT",
+    "name": "Sun",
+    "combo": "FIRE \u00d7 LIGHT",
+    "effect": "Blind all enemies.",
+    "img": "sun.png"
+  },
+  {
+    "row": "POISON",
+    "col": "EARTHQUAKE",
+    "name": "Swamp",
+    "combo": "POISON \u00d7 EARTHQUAKE",
+    "effect": "Leaves behind tar blobs over time.",
+    "img": "swamp.png"
+  },
+  {
+    "row": "VAMPIRE",
+    "col": "BLEED",
+    "name": "Vampire Lord",
+    "combo": "VAMPIRE \u00d7 BLEED",
+    "effect": "Each hit inflicts.",
+    "img": ""
+  },
+  {
+    "row": "VAMPIRE",
+    "col": "DARK",
+    "name": "Vampire Lord",
+    "combo": "VAMPIRE \u00d7 DARK",
+    "effect": "Each hit inflicts.",
+    "img": ""
+  },
+  {
+    "row": "POISON",
+    "col": "GHOST",
+    "name": "Virus",
+    "combo": "POISON \u00d7 GHOST",
+    "effect": "Applies 1 stack.",
+    "img": "virus.png"
+  },
+  {
+    "row": "POISON",
+    "col": "CELL",
+    "name": "Virus",
+    "combo": "POISON \u00d7 CELL",
+    "effect": "Applies 1 stack.",
+    "img": "virus.png"
+  },
+  {
+    "row": "EGG SAC",
+    "col": "CELL",
+    "name": "Voluptuous Egg Sac",
+    "combo": "EGG SAC \u00d7 CELL",
+    "effect": "Explodes into 2-3 egg sacs.",
+    "img": ""
+  },
+  {
+    "row": "FREEZE",
+    "col": "GHOST",
+    "name": "Wraith",
+    "combo": "FREEZE \u00d7 GHOST",
+    "effect": "Freezes any enemy.",
+    "img": "wraith.png"
+  },
+  {
+    "row": "VAMPIRE LORD",
+    "col": "MOSQUITO KING",
+    "name": "Nosferatu",
+    "combo": "VAMPIRE LORD \u00d7 MOSQUITO KING",
+    "effect": "Spawns a vampire bat.",
+    "img": "nosferatu.png"
+  },
+  {
+    "row": "VAMPIRE LORD",
+    "col": "SPIDER QUEEN",
+    "name": "Nosferatu",
+    "combo": "VAMPIRE LORD \u00d7 SPIDER QUEEN",
+    "effect": "Spawns a vampire bat.",
+    "img": "nosferatu.png"
+  }
+]

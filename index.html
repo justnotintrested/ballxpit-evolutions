@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Ball x Pit - Package</title>
+<style>
+:root{--cell-size:50px;--img-size:28px;--bg:#070707;--panel:#131313;--text:#efe9df;--border:rgba(255,255,255,0.04)}
+body{background:var(--bg);color:var(--text);font-family:Inter,Arial;margin:12px}
+.matrix-wrap{height:calc(100vh - 120px);overflow:auto;background:var(--panel);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.02)}
+table{border-collapse:collapse;table-layout:fixed;width:max-content;min-width:100%}
+th,td{width:var(--cell-size);height:var(--cell-size);padding:4px;border:1px solid var(--border);text-align:center;vertical-align:middle;background:linear-gradient(180deg,#151313,#0e0e0e)}
+th{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,#1b1816,#100f0e);font-size:10px}
+tbody th{position:sticky;left:0;z-index:4;background:linear-gradient(180deg,#1b1816,#100f0e);font-size:10px}
+td{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px}
+td.self{background:#0b0b0b;color:#ccc}
+td.missing{opacity:.14}
+td.found{cursor:pointer;box-shadow:inset 0 0 0 1px rgba(216,155,58,0.02)}
+img{width:var(--img-size);height:var(--img-size);object-fit:contain;image-rendering:pixelated}
+.popup-bg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:9999}
+.popup{width:420px;background:#f7eee0;color:#2b2218;border-radius:8px;padding:14px;border:6px solid #4b3626;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.popup img{width:120px;height:120px;display:block;margin:0 auto 8px;object-fit:contain}
+.popup .effect{background:#fff8e8;padding:8px;border-radius:6px;border:1px solid rgba(0,0,0,.04);max-height:260px;overflow:auto}
+.controls{display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px}
+.btn{background:#121212;color:var(--text);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+.hint{color:#bdb1a8;margin-top:8px;font-size:12px}
+</style>
+</head>
+<body>
+<h2>Ball x Pit — Evolution Matrix (pack)</h2>
+<div class="controls"><button id="download" class="btn">Download evolutions.json</button><button id="refresh" class="btn">Refresh</button></div>
+<div class="matrix-wrap"><div id="matrix"></div></div>
+<div class="hint">Icons: img/ (snake_case). Missing images show placeholder.png</div>
+
+<div class="popup-bg" id="popupBg"><div class="popup"><h3 id="popName">NAME</h3><img id="popImg"><div id="popCombo"></div><div class="effect" id="popEffect"></div><div style="text-align:center;margin-top:10px"><button id="popClose" class="btn">Close</button></div></div></div>
+
+<script>
+async function loadJSON(path){ try{ const r=await fetch(path); return r.ok?await r.json():null }catch(e){return null} }
+let base = await loadJSON('base.json'); if(!base){ base = [{"name":"BLEED","img":"bleed.png"}]; }
+let evol = await loadJSON('evolutions.json'); if(!evol) evol=[];
+
+function short(s){ return s.length>12? s.slice(0,11)+'…':s }
+function render(){ const names = base.map(b=>b.name); let html='<table><thead><tr><th></th>'; for(const n of names){ html+=`<th><img src="img/${n.toLowerCase().replace(/ /g,'_')}.png" onerror="this.style.opacity=.2"><div style="font-weight:700;margin-top:4px">${short(n)}</div></th>` } html+='</tr></thead><tbody>'; for(const row of names){ html+=`<tr><th><img src="img/${row.toLowerCase().replace(/ /g,'_')}.png" onerror="this.style.opacity=.2"><div style="font-weight:700;margin-top:4px">${short(row)}</div></th>`; for(const col of names){ if(row===col){ html+='<td class="self">—</td>'; continue } const found = evol.find(e=>e.row===row && e.col===col); if(found){ html+=`<td class="found" data-name="${found.name}" data-combo="${found.combo||''}" data-effect="${found.effect||''}" data-img="${found.img||''}"><img src="img/${found.img||''}" onerror="this.style.opacity=.3"><div style="font-size:10px">${short(found.name)}</div></td>` } else { html+=`<td class="missing"></td>` } } html+='</tr>' } html+='</tbody></table>'; document.getElementById('matrix').innerHTML=''; document.getElementById('matrix').insertAdjacentHTML('beforeend', html); document.querySelectorAll('td.found').forEach(td=>td.addEventListener('click', ()=>{ openPopup(td.dataset)})) }
+function openPopup(d){ document.getElementById('popName').textContent=d.name||'Unknown'; document.getElementById('popCombo').textContent=d.combo||''; document.getElementById('popEffect').textContent=d.effect||''; document.getElementById('popImg').src='img/'+(d.img||'placeholder.png'); document.getElementById('popupBg').style.display='flex' }
+document.getElementById('popClose').addEventListener('click', ()=>document.getElementById('popupBg').style.display='none')
+document.getElementById('refresh').addEventListener('click', ()=>render())
+document.getElementById('download').addEventListener('click', ()=>{ const b=new Blob([JSON.stringify(evol,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='evolutions.json'; a.click() })
+render()
+</script>
+</body>
+</html>

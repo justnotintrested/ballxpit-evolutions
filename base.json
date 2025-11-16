@@ -1,0 +1,74 @@
+[
+  {
+    "name": "BLEED",
+    "img": "bleed.png"
+  },
+  {
+    "name": "BROOD MOTHER",
+    "img": "brood_mother.png"
+  },
+  {
+    "name": "BURN",
+    "img": "burn.png"
+  },
+  {
+    "name": "CELL",
+    "img": "cell.png"
+  },
+  {
+    "name": "CHARM",
+    "img": "charm.png"
+  },
+  {
+    "name": "DARK",
+    "img": "dark.png"
+  },
+  {
+    "name": "EARTHQUAKE",
+    "img": "earthquake.png"
+  },
+  {
+    "name": "EGG SAC",
+    "img": "egg_sac.png"
+  },
+  {
+    "name": "FREEZE",
+    "img": "freeze.png"
+  },
+  {
+    "name": "GHOST",
+    "img": "ghost.png"
+  },
+  {
+    "name": "IRON",
+    "img": "iron.png"
+  },
+  {
+    "name": "LAZER H",
+    "img": "lazer_h.png"
+  },
+  {
+    "name": "LAZER V",
+    "img": "lazer_v.png"
+  },
+  {
+    "name": "LIGHT",
+    "img": "light.png"
+  },
+  {
+    "name": "LIGHTNING",
+    "img": "lightning.png"
+  },
+  {
+    "name": "POISON",
+    "img": "poison.png"
+  },
+  {
+    "name": "VAMPIRE",
+    "img": "vampire.png"
+  },
+  {
+    "name": "WIND",
+    "img": "wind.png"
+  }
+]
