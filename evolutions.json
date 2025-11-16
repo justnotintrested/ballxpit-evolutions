@@ -3,7 +3,8 @@
     "row": "BURN",
     "col": "IRON",
     "name": "BOMB",
-    "effect": "Explodes when hitting an enemy, dealing 150\u2013300 area damage. 3s cooldown.",
+    "combo": "BURN + IRON",
+    "effect": "Explodes dealing 150\u2013300 AoE damage. 3s cooldown.",
     "img": "bomb.png"
   }
 ]
