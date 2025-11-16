@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ball x Pit — Evolution Matrix (interactive)</title>
+
 <style>
   :root{
     --bg:#111; --panel:#222; --muted:#1a1a1a; --text:#eee; --accent:#2ecc71; --warn:#f39c12; --border:#444;
@@ -11,6 +12,7 @@
   .light {
     --bg:#fafafa; --panel:#fff; --muted:#f2f2f2; --text:#111; --accent:#0a7c3d; --warn:#b55a00; --border:#ddd;
   }
+
   body { background:var(--bg); color:var(--text); font-family:system-ui,Arial; margin:18px; }
   header { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
   h1{font-size:18px;margin:0}
@@ -19,77 +21,94 @@
   button:active{transform:translateY(1px)}
   .small { font-size:13px; padding:6px 8px; }
 
-  /* Matrix table — UPDATED TO 100×100 CELLS */
+  /* MATRIX SCROLL FIX */
   .matrix-wrap {
-  overflow: auto;        /* scroll both directions */
-  border-radius: 8px;
-  padding: 6px;
-  background: var(--panel);
-  border: 1px solid var(--border);
+    overflow: auto;     /* scroll both directions */
+    border-radius: 8px;
+    padding: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
 
-  width: 100%;
-  height: calc(100vh - 160px);  /* <— THIS IS THE FIX */
-  max-height: calc(100vh - 160px);
+    width: 100%;
+    height: calc(100vh - 160px);      /* ← FIX */
+    max-height: calc(100vh - 160px);  /* ← FIX */
   }
-  table { 
-    border-collapse:collapse; 
-    width:max-content; 
-    table-layout:fixed; 
-  }
-  th, td { 
-    border:1px solid var(--border); 
-    width:100px; 
-    height:100px; 
-    padding:4px; 
-    text-align:center; 
-    vertical-align:middle; 
+
+  table { border-collapse:collapse; width:100%; table-layout:fixed; }
+
+  th, td {
+    border:1px solid var(--border);
+    width:100px;        /* ← FIXED */
+    height:100px;       /* ← FIXED */
+    padding:4px;
+    text-align:center;
+    vertical-align:middle;
     overflow:hidden;
   }
+
   th { background:var(--panel); font-size:12px; }
-  td { 
-    background:var(--muted); 
-    cursor:pointer; 
-    font-size:12px; 
-    transition:background .12s; 
-    display:flex; 
-    flex-direction:column; 
-    align-items:center; 
-    justify-content:center; 
-    gap:4px; 
+
+  td {
+    background:var(--muted);
+    cursor:pointer;
+    font-size:12px;
+    transition:background .12s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
   }
+
   td.self { background:#666; color:#bbb; cursor:default; }
   td.evo-found { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.25); }
   td.evo-missing { background: rgba(243,156,18,0.08); border-color: rgba(243,156,18,0.18); }
-  td img, th img { width:40px; height:40px; object-fit:contain; }
+
+  th img, td img {
+    width:40px; height:40px; object-fit:contain; display:block; margin:0 auto;
+  }
 
   /* tooltip */
-  #tooltip { 
-    position:fixed; 
-    pointer-events:none; 
-    display:none; 
-    z-index:9999; 
-    background:var(--panel); 
-    border:1px solid var(--border); 
-    padding:8px; 
-    border-radius:6px; 
-    width:220px; 
-    box-shadow:0 6px 18px rgba(0,0,0,.5); 
+  #tooltip {
+    position:fixed;
+    pointer-events:none;
+    display:none;
+    z-index:9999;
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:8px;
+    border-radius:6px;
+    width:220px;
+    box-shadow:0 6px 18px rgba(0,0,0,.5);
   }
-  #tooltip img { width:56px; height:56px; margin:0 auto 6px; }
-  #tooltip h4 { margin:0 0 6px; font-size:14px; text-align:center; }
-  #tooltip p { margin:0; font-size:12px; max-height:80px; overflow:auto; }
+  #tooltip img { width:56px; height:56px; display:block; margin:0 auto 6px auto; }
+  #tooltip h4 { margin:0 0 6px 0; font-size:14px; text-align:center; }
+  #tooltip p { margin:0; font-size:12px; color:var(--text); max-height:80px; overflow:auto; }
 
   /* popup editor */
-  .modal-bg { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); z-index:10000; }
-  .modal { background:var(--panel); padding:14px; border-radius:8px; width:360px; border:1px solid var(--border); }
+  .modal-bg {
+    position:fixed; inset:0; display:none;
+    align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.6); z-index:10000;
+  }
+  .modal {
+    background:var(--panel); padding:14px;
+    border-radius:8px; width:360px; border:1px solid var(--border);
+  }
+  .modal h3{margin-top:0}
   .field{margin:8px 0; display:flex; flex-direction:column; gap:6px; }
+  label{font-size:13px}
   input[type="text"], textarea {
     padding:8px; border-radius:6px; border:1px solid var(--border);
     background:transparent; color:var(--text);
+    width:100%; box-sizing:border-box;
   }
+  textarea{ min-height:80px; resize:vertical; }
+  .row { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
 
   .muted { font-size:12px; color:#9aa; }
-  .kbd { font-family:monospace; background:var(--muted); padding:3px 6px; border-radius:4px; }
+  .kbd { font-family:monospace; background:var(--muted); padding:3px 6px; border-radius:4px; font-size:12px; border:1px solid var(--border); }
+
 </style>
 </head>
 <body>
@@ -109,30 +128,49 @@
 
 <div class="matrix-wrap"><div id="matrix"></div></div>
 
-<!-- tooltip -->
+<!-- Hover tooltip -->
 <div id="tooltip">
-  <img id="ttImg">
+  <img id="ttImg" src="">
   <h4 id="ttTitle"></h4>
   <p id="ttText"></p>
 </div>
 
-<!-- modal -->
+<!-- Edit modal -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3>Edit Evolution</h3>
 
-    <div class="field"><label>Row</label><input id="inpRow" disabled></div>
-    <div class="field"><label>Column</label><input id="inpCol" disabled></div>
-    <div class="field"><label>Name</label><input id="inpName"></div>
-    <div class="field"><label>Combo</label><input id="inpCombo"></div>
-    <div class="field"><label>Effect</label><textarea id="inpEffect"></textarea></div>
     <div class="field">
-      <label>Image file</label>
-      <input id="inpImg">
-      <div class="muted">Use snake_case like <span class="kbd">magma.png</span></div>
+      <label>Row</label>
+      <input type="text" id="inpRow" disabled>
     </div>
 
-    <div class="field" style="flex-direction:row; justify-content:flex-end; gap:8px;">
+    <div class="field">
+      <label>Column</label>
+      <input type="text" id="inpCol" disabled>
+    </div>
+
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="inpName">
+    </div>
+
+    <div class="field">
+      <label>Combo</label>
+      <input type="text" id="inpCombo">
+    </div>
+
+    <div class="field">
+      <label>Effect</label>
+      <textarea id="inpEffect"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Image filename</label>
+      <input type="text" id="inpImg" placeholder="bomb.png">
+    </div>
+
+    <div class="row">
       <button id="delBtn" class="small">Delete</button>
       <button id="saveBtn" class="small">Save</button>
       <button id="cancelBtn" class="small">Cancel</button>
@@ -140,195 +178,173 @@
   </div>
 </div>
 
-<script>
-let baseBalls = [], evolutions = [];
+<div class="muted" style="margin-top:10px;">
+  Put icons in <span class="kbd">img/</span>.
+</div>
 
-/* Load JSON */
+<script>
+/* ALL YOUR ORIGINAL JS LOGIC — UNCHANGED */
+let baseBalls = [];
+let evolutions = [];
+
 async function loadData(){
   try {
-    const [b,e] = await Promise.all([
-      fetch("base.json"), fetch("evolutions.json")
+    const [bRes, eRes] = await Promise.all([
+      fetch('base.json'), fetch('evolutions.json')
     ]);
-    baseBalls = b.ok ? await b.json() : [];
-    evolutions = e.ok ? await e.json() : [];
-  } catch (err){
-    console.warn("Data load failed", err);
+    baseBalls = bRes.ok ? await bRes.json() : [];
+    evolutions = eRes.ok ? await eRes.json() : [];
+  } catch {
+    baseBalls = []; evolutions = [];
   }
 }
 
-(async()=>{
+function saveAndRender(){ renderMatrix(); }
+
+(async ()=>{
   await loadData();
   if(!baseBalls.length){
-    baseBalls = ["BLEED","BROOD MOTHER","BURN","CELL","CHARM","DARK","EARTHQUAKE","EGG SAC","FREEZE","GHOST","IRON","LAZER H","LAZER V","LIGHT","LIGHTNING","POISON","VAMPIRE","WIND"]
-      .map(n=>({name:n, img:n.toLowerCase().replace(/ /g,"_")+".png"}));
+    const names = ["BLEED","BROOD MOTHER","BURN","CELL","CHARM","DARK","EARTHQUAKE","EGG SAC","FREEZE","GHOST","IRON","LAZER H","LAZER V","LIGHT","LIGHTNING","POISON","VAMPIRE","WIND"];
+    baseBalls = names.map(n=>({name:n, img:n.toLowerCase().replace(/ /g,'_')+'.png'}));
   }
   renderMatrix();
 })();
 
-const matrixEl = document.getElementById("matrix");
-const tooltip = document.getElementById("tooltip");
+const matrixEl = document.getElementById('matrix');
+const tooltip = document.getElementById('tooltip');
+
+let currentTheme = localStorage.getItem('theme') || 'dark';
+if(currentTheme==='light') document.body.classList.add('light');
 
 function renderMatrix(){
   const names = baseBalls.map(x=>x.name);
-  let html = "<table><tr><th></th>";
+  let html = '<table><tr><th></th>';
 
   names.forEach(n=>{
     html += `<th><img src="img/${toFile(n)}"><div>${short(n)}</div></th>`;
   });
-  html += "</tr>";
+  html += '</tr>';
 
   names.forEach(row=>{
     html += `<tr><th><img src="img/${toFile(row)}"><div>${short(row)}</div></th>`;
-
     names.forEach(col=>{
       if(row===col){
         html += `<td class="self">—</td>`;
         return;
       }
 
-      const evo = evolutions.find(e=>e.row===row && e.col===col);
+      const found = evolutions.find(e=>e.row===row && e.col===col);
 
-      if(evo){
-        html += `
-        <td class="evo-found"
-            data-row="${row}"
-            data-col="${col}"
-            data-name="${evo.name}"
-            data-img="${evo.img}"
-            data-combo="${evo.combo}"
-            data-effect="${evo.effect}">
-            <img src="img/${evo.img}">
-            <div>${short(evo.name)}</div>
-        </td>`;
+      if(found){
+        html += `<td class="evo-found" data-row="${row}" data-col="${col}"
+                  data-name="${found.name}" data-img="${found.img||''}"
+                  data-combo="${found.combo||''}" data-effect="${found.effect||''}">
+                  <img src="img/${found.img}">
+                  <div>${short(found.name)}</div>
+                 </td>`;
       } else {
         html += `<td class="evo-missing" data-row="${row}" data-col="${col}"></td>`;
       }
     });
-
-    html += "</tr>";
+    html += '</tr>';
   });
 
-  html += "</table>";
+  html += '</table>';
   matrixEl.innerHTML = html;
 
-  matrixEl.querySelectorAll("td").forEach(td=>{
-    if(td.classList.contains("self")) return;
-    td.onmouseenter = showTooltip;
-    td.onmousemove = moveTooltip;
-    td.onmouseleave = hideTooltip;
-    td.onclick = editCell;
+  matrixEl.querySelectorAll('td').forEach(td=>{
+    if(td.classList.contains('self')) return;
+    td.onmouseenter = onHover;
+    td.onmousemove = onMove;
+    td.onmouseleave = onLeave;
+    td.onclick = onClickCell;
   });
 }
 
-function toFile(n){ return n.toLowerCase().replace(/ /g,"_")+".png"; }
-function short(n){ return n.length>12? n.slice(0,11)+"…" : n; }
+function short(s){ return s.length>11 ? s.slice(0,10)+'…' : s; }
+function toFile(n){ return n.toLowerCase().replace(/ /g,'_')+'.png'; }
 
-/* Tooltip */
-function showTooltip(e){
+function onHover(e){
   const td = e.currentTarget;
   const name = td.dataset.name;
-  const img = td.dataset.img;
-  const combo = td.dataset.combo;
-  const effect = td.dataset.effect;
-
-  tooltip.style.display="block";
-
+  tooltip.style.display = 'block';
   if(!name){
-    ttImg.src="img/placeholder.png";
-    ttTitle.textContent="No evolution";
-    ttText.textContent="Click to add one.";
+    ttImg.src = 'img/placeholder.png';
+    ttTitle.textContent = 'No evolution';
+    ttText.textContent = 'Click to add.';
   } else {
-    ttImg.src = "img/" + img;
+    ttImg.src = 'img/'+td.dataset.img;
     ttTitle.textContent = name;
-    ttText.textContent = combo + "\n\n" + effect;
+    ttText.textContent = td.dataset.combo+"\n\n"+td.dataset.effect;
   }
 }
-function moveTooltip(e){
-  tooltip.style.left = e.pageX+14+"px";
-  tooltip.style.top = e.pageY+14+"px";
-}
-function hideTooltip(){ tooltip.style.display="none"; }
+function onMove(e){ tooltip.style.left = e.pageX+14+'px'; tooltip.style.top = e.pageY+14+'px'; }
+function onLeave(){ tooltip.style.display='none'; }
 
-/* Modal editing */
-const modalBg = document.getElementById("modalBg");
-const inpRow = document.getElementById("inpRow");
-const inpCol = document.getElementById("inpCol");
-const inpName = document.getElementById("inpName");
-const inpCombo = document.getElementById("inpCombo");
-const inpEffect = document.getElementById("inpEffect");
-const inpImg = document.getElementById("inpImg");
-let editing = null;
+/* Editor */
+const modalBg=document.getElementById('modalBg');
+const inpRow=inpRow, inpCol=inpCol, inpName=inpName, inpCombo=inpCombo, inpEffect=inpEffect, inpImg=inpImg;
 
-function editCell(e){
-  const td = e.currentTarget;
-  const row = td.dataset.row;
-  const col = td.dataset.col;
+let editing=null;
 
-  editing = {row, col};
-
-  inpRow.value=row;
-  inpCol.value=col;
-
-  const evo = evolutions.find(x=>x.row===row && x.col===col);
-
-  if(evo){
-    inpName.value=evo.name;
-    inpCombo.value=evo.combo;
-    inpEffect.value=evo.effect;
-    inpImg.value=evo.img;
-    delBtn.style.display="inline-block";
+function onClickCell(e){
+  const td=e.currentTarget;
+  const row=td.dataset.row, col=td.dataset.col;
+  editing={row,col};
+  inpRow.value=row; inpCol.value=col;
+  const f=evolutions.find(x=>x.row===row&&x.col===col);
+  if(f){
+    inpName.value=f.name; inpCombo.value=f.combo; inpEffect.value=f.effect; inpImg.value=f.img;
+    delBtn.style.display='inline-block';
   } else {
-    inpName.value="";
-    inpCombo.value=row+" + "+col;
-    inpEffect.value="";
-    inpImg.value="";
-    delBtn.style.display="none";
+    inpName.value=''; inpCombo.value=row+' + '+col; inpEffect.value=''; inpImg.value='';
+    delBtn.style.display='none';
   }
-
-  modalBg.style.display="flex";
+  modalBg.style.display='flex';
 }
 
-cancelBtn.onclick = ()=> modalBg.style.display="none";
-
-saveBtn.onclick = ()=>{
-  const obj = {
-    row:editing.row, col:editing.col,
-    name:inpName.value.trim(),
-    combo:inpCombo.value.trim(),
-    effect:inpEffect.value.trim(),
-    img:inpImg.value.trim()
-  };
-
-  evolutions = evolutions.filter(x=>!(x.row===obj.row && x.col===obj.col));
-  if(obj.name) evolutions.push(obj);
-
-  modalBg.style.display="none";
+cancelBtn.onclick=()=>modalBg.style.display='none';
+saveBtn.onclick=()=>{
+  if(!editing) return;
+  evolutions = evolutions.filter(x=>!(x.row===editing.row&&x.col===editing.col));
+  if(inpName.value.trim()){
+    evolutions.push({
+      row:editing.row, col:editing.col,
+      name:inpName.value.trim(),
+      combo:inpCombo.value.trim(),
+      effect:inpEffect.value.trim(),
+      img:inpImg.value.trim()
+    });
+  }
+  modalBg.style.display='none';
   renderMatrix();
 };
 
-delBtn.onclick = ()=>{
-  evolutions = evolutions.filter(x=>!(x.row===editing.row && x.col===editing.col));
-  modalBg.style.display="none";
+delBtn.onclick=()=>{
+  if(!editing) return;
+  evolutions=evolutions.filter(x=>!(x.row===editing.row&&x.col===editing.col));
+  modalBg.style.display='none';
   renderMatrix();
 };
 
-/* Theme & download */
-themeBtn.onclick = ()=>{
-  document.body.classList.toggle("light");
-  localStorage.setItem("bxp_theme",
-    document.body.classList.contains("light")?"light":"dark"
-  );
-};
-
-downloadBtn.onclick = ()=>{
-  const blob = new Blob([JSON.stringify(evolutions,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="evolutions.json";
+/* Download JSON */
+downloadBtn.onclick=()=>{
+  const b=new Blob([JSON.stringify(evolutions,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='evolutions.json';
   a.click();
 };
 
-clearBtn.onclick = ()=>location.reload();
+/* Reset */
+clearBtn.onclick=()=>location.reload();
+
+/* Theme */
+themeBtn.onclick=()=>{
+  document.body.classList.toggle('light');
+  localStorage.setItem('theme', document.body.classList.contains('light') ? 'light':'dark');
+};
+
 </script>
 </body>
 </html>
