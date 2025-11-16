@@ -34,7 +34,12 @@
     max-height: calc(100vh - 160px);  /* ← FIX */
   }
 
-  table { border-collapse:collapse; width:100%; table-layout:fixed; }
+  table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: max-content;
+  min-width: 100%;
+}
 
   th, td {
     border:1px solid var(--border);
