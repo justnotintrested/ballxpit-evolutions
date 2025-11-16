@@ -6,113 +6,87 @@
 <title>Ball x Pit — Evolution Matrix (interactive)</title>
 <style>
   :root{
-    --bg:#111; --panel:#222; --muted:#1a1a1a; --text:#eee;
-    --accent:#2ecc71; --warn:#f39c12; --border:#444;
+    --bg:#111; --panel:#222; --muted:#1a1a1a; --text:#eee; --accent:#2ecc71; --warn:#f39c12; --border:#444;
   }
   .light {
-    --bg:#fafafa; --panel:#fff; --muted:#f2f2f2;
-    --text:#111; --accent:#0a7c3d; --warn:#b55a00; --border:#ddd;
+    --bg:#fafafa; --panel:#fff; --muted:#f2f2f2; --text:#111; --accent:#0a7c3d; --warn:#b55a00; --border:#ddd;
   }
-
   body { background:var(--bg); color:var(--text); font-family:system-ui,Arial; margin:18px; }
   header { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
   h1{font-size:18px;margin:0}
   .controls { display:flex; gap:8px; align-items:center; }
-  button { background:var(--panel); color:var(--text); border:1px solid var(--border);
-           padding:8px 10px; border-radius:6px; cursor:pointer; }
+  button { background:var(--panel); color:var(--text); border:1px solid var(--border); padding:8px 10px; border-radius:6px; cursor:pointer; }
   button:active{transform:translateY(1px)}
   .small { font-size:13px; padding:6px 8px; }
 
-  /* MATRIX WRAPPER (fix) */
-  .matrix-wrap {
-    width: 100%;
-    height: 80vh;
-    overflow-x: auto;
-    overflow-y: auto;
-    border-radius: 8px;
-    padding: 6px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-  }
-
-  /* TABLE FIX */
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: max-content;     /* <— important: keeps full matrix visible */
-    min-width: 100%;
-  }
-
-  th, td {
+  /* Matrix table — UPDATED TO 100×100 CELLS */
+  .matrix-wrap { 
+    overflow:auto; 
+    border-radius:8px; 
+    padding:6px; 
+    background:var(--panel); 
     border:1px solid var(--border);
-    width:100px;            /* <— new size */
-    height:100px;           /* <— new size */
-    padding:4px;
-    text-align:center;
-    vertical-align:middle;
+    max-height:85vh; /* prevents screen overflow */
+  }
+  table { 
+    border-collapse:collapse; 
+    width:max-content; 
+    table-layout:fixed; 
+  }
+  th, td { 
+    border:1px solid var(--border); 
+    width:100px; 
+    height:100px; 
+    padding:4px; 
+    text-align:center; 
+    vertical-align:middle; 
     overflow:hidden;
   }
-
   th { background:var(--panel); font-size:12px; }
-
-  td {
-    background:var(--muted);
-    cursor:pointer;
-    font-size:12px;
-    transition:background .12s;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
+  td { 
+    background:var(--muted); 
+    cursor:pointer; 
+    font-size:12px; 
+    transition:background .12s; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    gap:4px; 
   }
-
-  td.empty { background:transparent; cursor:default; }
   td.self { background:#666; color:#bbb; cursor:default; }
+  td.evo-found { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.25); }
+  td.evo-missing { background: rgba(243,156,18,0.08); border-color: rgba(243,156,18,0.18); }
+  td img, th img { width:40px; height:40px; object-fit:contain; }
 
-  td.evo-found {
-    background: rgba(46,204,113,0.12);
-    border-color: rgba(46,204,113,0.25);
+  /* tooltip */
+  #tooltip { 
+    position:fixed; 
+    pointer-events:none; 
+    display:none; 
+    z-index:9999; 
+    background:var(--panel); 
+    border:1px solid var(--border); 
+    padding:8px; 
+    border-radius:6px; 
+    width:220px; 
+    box-shadow:0 6px 18px rgba(0,0,0,.5); 
   }
-  td.evo-missing {
-    background: rgba(243,156,18,0.08);
-    border-color: rgba(243,156,18,0.18);
-  }
-
-  td img, th img {
-    width:40px; height:40px; object-fit:contain;
-    display:block; margin:0 auto;
-  }
-
-  /* Tooltip */
-  #tooltip {
-    position:fixed; pointer-events:none; display:none; z-index:9999;
-    background:var(--panel); border:1px solid var(--border);
-    padding:8px; border-radius:6px; width:220px;
-    box-shadow:0 6px 18px rgba(0,0,0,.5);
-  }
-  #tooltip img { width:56px; height:56px; margin:0 auto 6px auto; }
-  #tooltip h4 { margin:0 0 6px 0; font-size:14px; text-align:center; }
+  #tooltip img { width:56px; height:56px; margin:0 auto 6px; }
+  #tooltip h4 { margin:0 0 6px; font-size:14px; text-align:center; }
   #tooltip p { margin:0; font-size:12px; max-height:80px; overflow:auto; }
 
-  /* Popup Modal */
-  .modal-bg {
-    position:fixed; inset:0; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.6); z-index:10000;
-  }
-  .modal {
-    background:var(--panel); padding:14px; border-radius:8px;
-    width:360px; border:1px solid var(--border);
-  }
-  .modal h3{margin-top:0}
+  /* popup editor */
+  .modal-bg { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); z-index:10000; }
+  .modal { background:var(--panel); padding:14px; border-radius:8px; width:360px; border:1px solid var(--border); }
   .field{margin:8px 0; display:flex; flex-direction:column; gap:6px; }
   input[type="text"], textarea {
     padding:8px; border-radius:6px; border:1px solid var(--border);
     background:transparent; color:var(--text);
   }
-  textarea{ min-height:80px; resize:vertical; }
-  .row { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+
+  .muted { font-size:12px; color:#9aa; }
+  .kbd { font-family:monospace; background:var(--muted); padding:3px 6px; border-radius:4px; }
 </style>
 </head>
 <body>
@@ -130,53 +104,32 @@
   </div>
 </header>
 
-<div class="matrix-wrap">
-  <div id="matrix"></div>
-</div>
+<div class="matrix-wrap"><div id="matrix"></div></div>
 
-<!-- Tooltip -->
+<!-- tooltip -->
 <div id="tooltip">
   <img id="ttImg">
   <h4 id="ttTitle"></h4>
   <p id="ttText"></p>
 </div>
 
-<!-- Modal -->
+<!-- modal -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3>Edit Evolution</h3>
 
+    <div class="field"><label>Row</label><input id="inpRow" disabled></div>
+    <div class="field"><label>Column</label><input id="inpCol" disabled></div>
+    <div class="field"><label>Name</label><input id="inpName"></div>
+    <div class="field"><label>Combo</label><input id="inpCombo"></div>
+    <div class="field"><label>Effect</label><textarea id="inpEffect"></textarea></div>
     <div class="field">
-      <label>Row</label>
-      <input id="inpRow" disabled>
-    </div>
-
-    <div class="field">
-      <label>Column</label>
-      <input id="inpCol" disabled>
-    </div>
-
-    <div class="field">
-      <label>Name</label>
-      <input id="inpName">
-    </div>
-
-    <div class="field">
-      <label>Combo</label>
-      <input id="inpCombo">
-    </div>
-
-    <div class="field">
-      <label>Effect</label>
-      <textarea id="inpEffect"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Image filename</label>
+      <label>Image file</label>
       <input id="inpImg">
+      <div class="muted">Use snake_case like <span class="kbd">magma.png</span></div>
     </div>
 
-    <div class="row">
+    <div class="field" style="flex-direction:row; justify-content:flex-end; gap:8px;">
       <button id="delBtn" class="small">Delete</button>
       <button id="saveBtn" class="small">Save</button>
       <button id="cancelBtn" class="small">Cancel</button>
@@ -185,8 +138,194 @@
 </div>
 
 <script>
-/* same JS you already have — unchanged */
-</script>
+let baseBalls = [], evolutions = [];
 
+/* Load JSON */
+async function loadData(){
+  try {
+    const [b,e] = await Promise.all([
+      fetch("base.json"), fetch("evolutions.json")
+    ]);
+    baseBalls = b.ok ? await b.json() : [];
+    evolutions = e.ok ? await e.json() : [];
+  } catch (err){
+    console.warn("Data load failed", err);
+  }
+}
+
+(async()=>{
+  await loadData();
+  if(!baseBalls.length){
+    baseBalls = ["BLEED","BROOD MOTHER","BURN","CELL","CHARM","DARK","EARTHQUAKE","EGG SAC","FREEZE","GHOST","IRON","LAZER H","LAZER V","LIGHT","LIGHTNING","POISON","VAMPIRE","WIND"]
+      .map(n=>({name:n, img:n.toLowerCase().replace(/ /g,"_")+".png"}));
+  }
+  renderMatrix();
+})();
+
+const matrixEl = document.getElementById("matrix");
+const tooltip = document.getElementById("tooltip");
+
+function renderMatrix(){
+  const names = baseBalls.map(x=>x.name);
+  let html = "<table><tr><th></th>";
+
+  names.forEach(n=>{
+    html += `<th><img src="img/${toFile(n)}"><div>${short(n)}</div></th>`;
+  });
+  html += "</tr>";
+
+  names.forEach(row=>{
+    html += `<tr><th><img src="img/${toFile(row)}"><div>${short(row)}</div></th>`;
+
+    names.forEach(col=>{
+      if(row===col){
+        html += `<td class="self">—</td>`;
+        return;
+      }
+
+      const evo = evolutions.find(e=>e.row===row && e.col===col);
+
+      if(evo){
+        html += `
+        <td class="evo-found"
+            data-row="${row}"
+            data-col="${col}"
+            data-name="${evo.name}"
+            data-img="${evo.img}"
+            data-combo="${evo.combo}"
+            data-effect="${evo.effect}">
+            <img src="img/${evo.img}">
+            <div>${short(evo.name)}</div>
+        </td>`;
+      } else {
+        html += `<td class="evo-missing" data-row="${row}" data-col="${col}"></td>`;
+      }
+    });
+
+    html += "</tr>";
+  });
+
+  html += "</table>";
+  matrixEl.innerHTML = html;
+
+  matrixEl.querySelectorAll("td").forEach(td=>{
+    if(td.classList.contains("self")) return;
+    td.onmouseenter = showTooltip;
+    td.onmousemove = moveTooltip;
+    td.onmouseleave = hideTooltip;
+    td.onclick = editCell;
+  });
+}
+
+function toFile(n){ return n.toLowerCase().replace(/ /g,"_")+".png"; }
+function short(n){ return n.length>12? n.slice(0,11)+"…" : n; }
+
+/* Tooltip */
+function showTooltip(e){
+  const td = e.currentTarget;
+  const name = td.dataset.name;
+  const img = td.dataset.img;
+  const combo = td.dataset.combo;
+  const effect = td.dataset.effect;
+
+  tooltip.style.display="block";
+
+  if(!name){
+    ttImg.src="img/placeholder.png";
+    ttTitle.textContent="No evolution";
+    ttText.textContent="Click to add one.";
+  } else {
+    ttImg.src = "img/" + img;
+    ttTitle.textContent = name;
+    ttText.textContent = combo + "\n\n" + effect;
+  }
+}
+function moveTooltip(e){
+  tooltip.style.left = e.pageX+14+"px";
+  tooltip.style.top = e.pageY+14+"px";
+}
+function hideTooltip(){ tooltip.style.display="none"; }
+
+/* Modal editing */
+const modalBg = document.getElementById("modalBg");
+const inpRow = document.getElementById("inpRow");
+const inpCol = document.getElementById("inpCol");
+const inpName = document.getElementById("inpName");
+const inpCombo = document.getElementById("inpCombo");
+const inpEffect = document.getElementById("inpEffect");
+const inpImg = document.getElementById("inpImg");
+let editing = null;
+
+function editCell(e){
+  const td = e.currentTarget;
+  const row = td.dataset.row;
+  const col = td.dataset.col;
+
+  editing = {row, col};
+
+  inpRow.value=row;
+  inpCol.value=col;
+
+  const evo = evolutions.find(x=>x.row===row && x.col===col);
+
+  if(evo){
+    inpName.value=evo.name;
+    inpCombo.value=evo.combo;
+    inpEffect.value=evo.effect;
+    inpImg.value=evo.img;
+    delBtn.style.display="inline-block";
+  } else {
+    inpName.value="";
+    inpCombo.value=row+" + "+col;
+    inpEffect.value="";
+    inpImg.value="";
+    delBtn.style.display="none";
+  }
+
+  modalBg.style.display="flex";
+}
+
+cancelBtn.onclick = ()=> modalBg.style.display="none";
+
+saveBtn.onclick = ()=>{
+  const obj = {
+    row:editing.row, col:editing.col,
+    name:inpName.value.trim(),
+    combo:inpCombo.value.trim(),
+    effect:inpEffect.value.trim(),
+    img:inpImg.value.trim()
+  };
+
+  evolutions = evolutions.filter(x=>!(x.row===obj.row && x.col===obj.col));
+  if(obj.name) evolutions.push(obj);
+
+  modalBg.style.display="none";
+  renderMatrix();
+};
+
+delBtn.onclick = ()=>{
+  evolutions = evolutions.filter(x=>!(x.row===editing.row && x.col===editing.col));
+  modalBg.style.display="none";
+  renderMatrix();
+};
+
+/* Theme & download */
+themeBtn.onclick = ()=>{
+  document.body.classList.toggle("light");
+  localStorage.setItem("bxp_theme",
+    document.body.classList.contains("light")?"light":"dark"
+  );
+};
+
+downloadBtn.onclick = ()=>{
+  const blob = new Blob([JSON.stringify(evolutions,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="evolutions.json";
+  a.click();
+};
+
+clearBtn.onclick = ()=>location.reload();
+</script>
 </body>
 </html>
