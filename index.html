@@ -3,43 +3,51 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ball x Pit Evolutions</title>
-
+<title>Ball x Pit Matrix</title>
 <style>
-  body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 20px; }
-  h1 { text-align: center; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-  .card { background: #1b1b1b; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; }
-  .card:hover { background: #272727; }
-  .card img { width: 64px; height: 64px; }
+  body { font-family: Arial, sans-serif; background:#111; color:#eee; padding:20px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border:1px solid #444; padding:6px; text-align:center; }
+  th { background:#222; }
+  td { background:#1a1a1a; cursor:pointer; }
+  td:hover { background:#333; }
 </style>
-
 </head>
 <body>
-
-<h1>Ball x Pit Evolutions</h1>
-
-<div class="grid" id="grid"></div>
+<h1>Ball x Pit Evolution Matrix</h1>
+<div id="matrix"></div>
 
 <script>
-fetch("data.json")
-  .then(r => r.json())
-  .then(data => buildGrid(data));
+let baseBalls = [];
+let evolutions = [];
 
-function buildGrid(data) {
-  const grid = document.getElementById("grid");
-  data.forEach(x => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <img src="${x.img || ''}" alt="">
-      <br>
-      ${x.name}
-    `;
-    grid.appendChild(div);
+Promise.all([
+  fetch('base.json').then(r=>r.json()),
+  fetch('evolutions.json').then(r=>r.json())
+]).then(([base, evo]) => {
+  baseBalls = base;
+  evolutions = evo;
+  buildMatrix();
+});
+
+function buildMatrix(){
+  const names = baseBalls.map(x=>x.name);
+  let html = `<table><tr><th></th>`;
+  names.forEach(n => html += `<th>${n}</th>`);
+  html += `</tr>`;
+
+  names.forEach(row =>{
+    html += `<tr><th>${row}</th>`;
+    names.forEach(col =>{
+      const found = evolutions.find(e=> e.row===row && e.col===col);
+      html += `<td>${found ? found.name : ''}</td>`;
+    });
+    html += `</tr>`;
   });
+
+  html += `</table>`;
+  document.getElementById('matrix').innerHTML = html;
 }
 </script>
-
 </body>
 </html>
