@@ -54,7 +54,7 @@ Promise.all([
 function buildMatrix(){
   const names = baseBalls.map(x=>x.name);
   let html = `<table><tr><th></th>`;
-  names.forEach(n => html += `<th><img src='img/${toFile(n)}' width='40'><br>${n}</th>`);
+  names.forEach(n => html += `<th><img src='${toFile(n)}' width='40'><br>${n}</th>`);
   html += `</tr>`;
 
   names.forEach(row =>{
@@ -80,7 +80,7 @@ function pop(title,combo,effect,img){
   document.getElementById('pTitle').innerText = title;
   document.getElementById('pCombo').innerText = combo;
   document.getElementById('pEffect').innerText = effect;
-  document.getElementById('pImg').src = 'img/' + img;
+  document.getElementById('pImg').src = img;
   document.getElementById('popbg').style.display='flex';
 }
 
